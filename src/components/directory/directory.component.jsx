@@ -11,31 +11,39 @@ class Directory extends Component {
         this.state = {
             sections: [
                 {
-                    id: '01',
-                    title: "HEATS",
-                    subtitle: "SHOP NOW"
+                    title: 'hats',
+                    imageUrl: 'https://i.ibb.co/cvpntL1/hats.png',
+                    id: 1,
+                    linkUrl: 'shop/hats'
                 },
                 {
-                    id: '02',
-                    title: "JACKETS",
-                    subtitle: "SHOP NOW"
+                    title: 'jackets',
+                    imageUrl: 'https://i.ibb.co/px2tCc3/jackets.png',
+                    id: 2,
+                    linkUrl: 'shop/jackets'
                 },
                 {
-                    id: '03',
-                    title: "SNEAKERS",
-                    subtitle: "SHOP NOW"
+                    title: 'sneakers',
+                    imageUrl: 'https://i.ibb.co/0jqHpnp/sneakers.png',
+                    id: 3,
+                    linkUrl: 'shop/sneakers'
                 },
                 {
-                    id: '04',
-                    title: "WOMENS",
-                    subtitle: "SHOP NOW"
+                    title: 'womens',
+                    imageUrl: 'https://i.ibb.co/GCCdy8t/womens.png',
+                    size: 'large',
+                    id: 4,
+                    linkUrl: 'shop/womens'
                 },
                 {
-                    id: '05',
-                    title: "MENS",
-                    subtitle: "SHOP NOW"
-                },
+                    title: 'mens',
+                    imageUrl: 'https://i.ibb.co/R70vBrQ/men.png',
+                    size: 'large',
+                    id: 5,
+                    linkUrl: 'shop/mens'
+                }
             ]
+
         }
 
     };
@@ -46,8 +54,8 @@ class Directory extends Component {
         return (
             <div className='directory-menu'>
                 {
-                    sections.map(item => (
-                        <MenuItem key={item.id} title={item.title} subtitle={item.subtitle} />
+                    sections.map(({ id, title, imageUrl, subtitle, size }) => (
+                        <MenuItem key={id} title={title} subtitle={subtitle} size={size} imageUrl={imageUrl} />
                     ))
                 }
             </div>
