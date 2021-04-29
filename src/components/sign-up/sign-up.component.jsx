@@ -2,22 +2,47 @@ import React, { Component } from "react";
 import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
 import "./sign-up.styles.scss";
+import { auth, createUserProfileDocument } from "../../firebase/firebase.utils";
 
 class SingUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      user_email: "",
-      user_password: "",
-      confirm_pass: "",
+      displayName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
     };
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
+    const { displayName, email, password, confirmPassword } = this.state;
 
-    this.setState({ name: "", user_email: "", user_password: "" });
+    if (password !== confirmPassword) {
+      alert("password don't matched......");
+      return;
+    }
+
+    try {
+      console.log(email, password);
+
+      const { user } = await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
+
+      await createUserProfileDocument(user, { displayName });
+
+      this.setState({
+        displayName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   handleChange = (event) => {
@@ -26,7 +51,7 @@ class SingUp extends Component {
   };
 
   render() {
-    const { name, user_email, user_password, confirm_pass } = this.state;
+    const { displayName, email, password, confirmPassword } = this.state;
     return (
       <div className="sing-in">
         <h1>I dont have account</h1>
@@ -35,10 +60,10 @@ class SingUp extends Component {
         <form onSubmit={this.handleSubmit}>
           <FormInput
             type="text"
-            name="name"
-            id="name"
+            name="displayName"
+            id="displayName"
             label="Display Name"
-            value={name}
+            value={displayName}
             required
             onChange={this.handleChange}
           />
@@ -48,7 +73,7 @@ class SingUp extends Component {
             name="email"
             id="email"
             label="Email"
-            value={user_email}
+            value={email}
             required
             onChange={this.handleChange}
           />
@@ -57,17 +82,17 @@ class SingUp extends Component {
             name="password"
             type="password"
             id="password"
-            value={user_password}
+            value={password}
             label="Password"
             required
             onChange={this.handleChange}
           />
 
           <FormInput
-            name="confirmPass"
-            type="confirmPass"
-            id="confirmPass"
-            value={confirm_pass}
+            name="confirmPassword"
+            type="password"
+            id="confirmPassword"
+            value={confirmPassword}
             label="Confirm Password"
             required
             onChange={this.handleChange}
