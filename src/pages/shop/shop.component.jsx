@@ -14,6 +14,7 @@ class ShopPage extends React.Component {
     const { collection } = this.state;
     return (
       <div className="shop">
+        <h1>Collections</h1>
         {collection.map((item) => (
           <div key={item.id}>
             <h1> {item.title.toUpperCase()} </h1>
