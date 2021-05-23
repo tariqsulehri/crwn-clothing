@@ -4,12 +4,18 @@ import "./collection.styles.scss";
 
 import CollectionItem from "../../components/collection-item/collection-item.component";
 import { selectCollection } from "../../redux/shop/shop.selectors";
+import { getByTitle } from "@testing-library/dom";
 
 const CollectionPage = ({ collection }) => {
-  console.log(collection);
+  const { title, items } = collection;
   return (
     <div className="collection-page">
-      <h2>CATEGORY PAGE</h2>
+      <h2 className="title">{title}</h2>
+      <div className="items">
+        {items.map((item) => (
+          <CollectionItem kye={item.id} item={item} />
+        ))}
+      </div>
     </div>
   );
 };
