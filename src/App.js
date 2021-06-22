@@ -6,8 +6,9 @@ import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component';
 import CheckoutPage from './pages/checkout/checkout.component';
 import SignInAndSignUpPage from './pages/sing-in-and-sign-up/sign-in-and-sign-up.component';
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
-import { setCurrentUser } from './redux/user/user.actions'
+import { auth, createUserProfileDocument, addCollectionAndDocuments } from './firebase/firebase.utils';
+import { setCurrentUser } from './redux/user/user.actions';
+import { selectCollectionsForPreview } from './redux/shop/shop.selectors';
 import './App.css';
 
 class App extends Component {
@@ -15,7 +16,9 @@ class App extends Component {
   unSubscribedFromAuth = null;
 
   componentDidMount() {
-    const { setCurrentUser } = this.props;
+
+    const { setCurrentUser, collectionsArray } = this.props;
+
     this.unSubscribedFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
 
@@ -28,6 +31,10 @@ class App extends Component {
         });
       }
       setCurrentUser(userAuth);
+      //addCollectionAndDocuments('collections', collectionsArray.collections.map(({ title, items }) => ({ title: title, items: items })));
+      //console.log(collectionsArray.collections);
+      //collectionsArray.collections.map((item) => (console.log(item)))
+
     });
 
   }
@@ -52,8 +59,15 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ user }) => ({
-  currentUser: user.currentUser
+// const mapStateToProps = ({ user }) => ({
+//   currentUser: user.currentUser,
+//   collectionsArray: selectCollectionsForPreview
+
+// });
+
+const mapStateToProps = ({ user, shop }) => ({
+  currentUser: user.currentUser,
+  collectionsArray: shop
 });
 
 const mapDispatchToProps = (dispatch) => ({
